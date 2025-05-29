@@ -35,7 +35,7 @@
     logNode.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
     logNode.style.overflowY = 'auto';
     logNode.style.zIndex = '1000';
-    logNode.innerHTML = '<h2 style="margin: 0 0 16px 0; color: #1e293b; font-size: 24px; font-weight: 600; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">📊 Old Results</h2>';
+    logNode.innerHTML = '<h2 style="margin: 0 0 16px 0; color: #1e293b; font-size: 24px; font-weight: 600; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">📊 Previous Results</h2>';
     document.body.appendChild(logNode);
 
     let previousHtml = resultNode.innerHTML;
@@ -46,7 +46,7 @@
             if (mutation.type === 'characterData' || mutation.type === 'childList') {
                 const currentHtml = resultNode.innerHTML;
                 
-                if (currentHtml !== previousHtml) {
+                if (currentHtml !== previousHtml || previousHtml === '') {
                     // Append the replaced text to the log node
                     const replacedHtml = previousHtml;
                     
@@ -54,11 +54,11 @@
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = replacedHtml;
                     const loadingParagraph = tempDiv.querySelector('p.text-muted');
+                    // const emptyResults = tempDiv.querySelector("#results-html").childElementCount == 0
+                    const loading = loadingParagraph && loadingParagraph.textContent.trim() === 'Loading...'
                     
-                    if (!loadingParagraph || loadingParagraph.textContent.trim() !== 'Loading...') {
-                        const newResultDiv = '<div style="border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 16px; padding: 16px; background-color: #ffffff; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); transition: all 0.2s ease;">' + replacedHtml + '</div>';
-                        // Insert after the header (first child is the h2)
-                        logNode.firstElementChild.insertAdjacentHTML('afterend', newResultDiv);
+                    if (!loading) {
+                        logNode.firstElementChild.insertAdjacentHTML('afterend', replacedHtml);
                     }
 
                     // Update the previousHtml to the new text
