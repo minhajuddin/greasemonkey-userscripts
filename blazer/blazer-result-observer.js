@@ -1,18 +1,17 @@
 // ==UserScript==
-// @name         Watch and Append DOM Changes
+// @name         Blazer Result Previous Results Panel
 // @namespace    http://tampermonkey.net/
 // @version      1.0
-// @description  Watches for text changes in a specific DOM node and appends replaced text to a new node.
-// @author       YourName
-// @match        https://blazer.instacart.tools/*
+// @description  Shows the results from previous queries in a bottom panel.
+// @author       Khaja Minhajuddin
+// @match        https://blazer.*/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
     
-    // Target the node which you want to monitor
-    const resultNode = document.querySelector('#results'); // Change #targetNode to your desired node's selector
+    const resultNode = document.querySelector('#results');
     
     if (!resultNode) {
         console.warn('Results node not found.');
@@ -28,7 +27,6 @@
     logNode.style.width = '100%';
     logNode.style.height = '40vh';
     logNode.style.border = '2px solid #e2e8f0';
-    logNode.style.borderRadius = '12px 12px 0 0';
     logNode.style.padding = '20px';
     logNode.style.backgroundColor = '#f8fafc';
     logNode.style.boxShadow = '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)';
